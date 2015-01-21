@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Atmel Studio Solution File, Format Version 11.00
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "LUFA_PROJECTS_TEMP_DATALOGGER2", "LUFA_PROJECTS_TEMP_DATALOGGER2\LUFA_PROJECTS_TEMP_DATALOGGER2.cproj", "{833DFC35-6929-4CF5-AA5E-52D06496355C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|AVR = Debug|AVR
+		Release|AVR = Release|AVR
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{833DFC35-6929-4CF5-AA5E-52D06496355C}.Debug|AVR.ActiveCfg = Debug|AVR
+		{833DFC35-6929-4CF5-AA5E-52D06496355C}.Debug|AVR.Build.0 = Debug|AVR
+		{833DFC35-6929-4CF5-AA5E-52D06496355C}.Release|AVR.ActiveCfg = Release|AVR
+		{833DFC35-6929-4CF5-AA5E-52D06496355C}.Release|AVR.Build.0 = Release|AVR
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
