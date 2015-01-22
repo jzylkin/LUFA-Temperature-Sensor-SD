@@ -38,11 +38,11 @@
 #include "IO_Macros.h"
 
 #define DO_INIT()	configure_as_input(SD_MISO)			/* Initialize port for MMC DO as input */  
-#define DO			SD_MISO	/* Test for MMC DO ('H':true, 'L':false) */
+#define DO			is_high(SD_MISO)	/* Test for MMC DO ('H':true, 'L':false) */
 
 #define DI_INIT()	configure_as_output(SD_MOSI) 	/* Initialize port for MMC DI as output */ 
 #define DI_H()		set_high(SD_MOSI)	/* Set MMC DI "high" */
-#define DI_L()		set_low(SD_MISO) /* Set MMC DI "low" */
+#define DI_L()		set_low(SD_MOSI) /* Set MMC DI "low" */
 
 #define CK_INIT()	configure_as_output(SD_CLK)	/* Initialize port for MMC SCLK as output */
 #define CK_H()		set_high(SD_CLK)	/* Set MMC SCLK "high" */

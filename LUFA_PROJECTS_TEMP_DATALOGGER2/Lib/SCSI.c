@@ -217,7 +217,7 @@ static bool SCSI_Command_Read_Capacity_10(USB_ClassInfo_MS_Device_t* const MSInt
 	uint32_t LastBlockAddressInLUN;
 	uint32_t MediaBlockSize        = VIRTUAL_MEMORY_BLOCK_SIZE;
 
-	LastBlockAddressInLUN = get_num_of_sectors();
+	LastBlockAddressInLUN = get_num_of_sectors()-1;
 
 	Endpoint_Write_Stream_BE(&LastBlockAddressInLUN, sizeof(LastBlockAddressInLUN), NULL);
 	Endpoint_Write_Stream_BE(&MediaBlockSize, sizeof(MediaBlockSize), NULL);
@@ -300,7 +300,7 @@ static bool SCSI_Command_ReadWrite_10(USB_ClassInfo_MS_Device_t* const MSInterfa
 	TotalBlocks  = SwapEndian_16(*(uint16_t*)&MSInterfaceInfo->State.CommandBlock.SCSICommandData[7]);
 
 	/* Check if the block address is outside the maximum allowable value for the LUN */
-	if (BlockAddress >= get_num_of_sectors())
+	if (BlockAddress >= get_num_of_sectors()-1)
 	{
 		/* Block address is invalid, update SENSE key and return command fail */
 		SCSI_SET_SENSE(SCSI_SENSE_KEY_ILLEGAL_REQUEST,
@@ -318,7 +318,7 @@ static bool SCSI_Command_ReadWrite_10(USB_ClassInfo_MS_Device_t* const MSInterfa
 	  SDCardManager_WriteBlocks(MSInterfaceInfo, BlockAddress, TotalBlocks);
 
 	/* Update the bytes transferred counter and succeed the command */
-	MSInterfaceInfo->State.CommandBlock.DataTransferLength -= ((uint32_t)TotalBlocks * get_num_of_sectors());
+	MSInterfaceInfo->State.CommandBlock.DataTransferLength -= ((uint32_t)TotalBlocks * VIRTUAL_MEMORY_BLOCK_SIZE);
 
 	return true;
 }

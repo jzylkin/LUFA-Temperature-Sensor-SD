@@ -39,20 +39,23 @@
 #define  INCLUDE_FROM_SDCARDMANAGER_C
 #include "SDCardManager.h"
 #include "diskio.h"
+#include "IO_Macros.h"
 
-static FRESULT disk_info;
 static uint32_t CachedTotalBlocks = 0;
 static uint8_t Buffer[512];
 
 void SDCardManager_Init(void)
 {
-	while(!disk_initialize(0))
-		printf_P(PSTR("MMC/SD initialization failed\r\n"));
+	set_low(SD_POWER);
+	Delay_MS(1000);
+//	while(!disk_initialize(0))
+//		printf_P(PSTR("MMC/SD initialization failed\r\n"));
+
+	disk_initialize(0);
 }
 
 uint32_t SDCardManager_GetNbBlocks(void)
 {
-	uint32_t TotalBlocks = 0;
 	
 	if (CachedTotalBlocks != 0)
 		return CachedTotalBlocks;
@@ -155,7 +158,7 @@ void SDCardManager_WriteBlocks(USB_ClassInfo_MS_Device_t* const MSInterfaceInfo,
 
 uint8_t SDCardManager_ReadBlockHandler(uint8_t* buffer, uint8_t offset)
 {
-	uint8_t i;
+	
 
 	/* Check if the endpoint is currently full */
 	if (!(Endpoint_IsReadWriteAllowed()))

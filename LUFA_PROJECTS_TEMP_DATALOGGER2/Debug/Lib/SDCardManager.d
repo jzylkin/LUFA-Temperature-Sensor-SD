@@ -126,7 +126,7 @@ Lib/SDCardManager.d Lib/SDCardManager.o: ../Lib/SDCardManager.c \
  ../src/LUFA/LUFA/Drivers/Board/../../Common/Common.h \
  ../src/LUFA/LUFA/Platform/Platform.h \
  ../src/LUFA/LUFA/Platform/../Common/Common.h ../Descriptors.h \
- ../src/LUFA/LUFA/Common/Common.h ../Lib/FATFs/diskio.h
+ ../src/LUFA/LUFA/Common/Common.h ../Lib/FATFs/diskio.h ../IO_Macros.h
 
 ../Lib/SDCardManager.h:
 
@@ -399,3 +399,5 @@ c:\program\ files\ (x86)\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.1061\avr8-g
 ../src/LUFA/LUFA/Common/Common.h:
 
 ../Lib/FATFs/diskio.h:
+
+../IO_Macros.h:

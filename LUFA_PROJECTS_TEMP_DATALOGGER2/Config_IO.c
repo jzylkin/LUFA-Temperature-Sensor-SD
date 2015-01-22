@@ -29,8 +29,7 @@ void Config_IO(){
 	pullup_on(SD_MISO);
 	
 	configure_as_output(SD_MOSI);
-	pullup_on(SD_MOSI);
-	
+
 	configure_as_output(SENSE_CLK);
 	
 	configure_as_input(SENSE_SER);
