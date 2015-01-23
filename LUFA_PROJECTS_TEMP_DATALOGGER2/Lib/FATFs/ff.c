@@ -121,6 +121,7 @@
 
 #include "ff.h"			/* Declarations of FatFs API */
 #include "diskio.h"		/* Declarations of disk I/O functions */
+#include "IO_Macros.h"
 
 
 
@@ -2160,8 +2161,9 @@ BYTE check_fs (	/* 0:FAT boor sector, 1:Valid boor sector but not FAT, 2:Not a b
 )
 {
 	fs->wflag = 0; fs->winsect = 0xFFFFFFFF;	/* Invaidate window */
-	if (move_window(fs, sect) != FR_OK)			/* Load boot record */
+	if (move_window(fs, sect) != FR_OK){	/* Load boot record */
 		return 3;
+	}
 
 	if (LD_WORD(&fs->win[BS_55AA]) != 0xAA55)	/* Check boot record signature (always placed at offset 510 even if the sector size is >512) */
 		return 2;
@@ -2249,7 +2251,9 @@ FRESULT find_volume (	/* FR_OK(0): successful, !=0: any error occurred */
 			fmt = bsect ? check_fs(fs, bsect) : 2;	/* Check the partition */
 		} while (!LD2PT(vol) && fmt && ++i < 4);
 	}
-	if (fmt == 3) return FR_DISK_ERR;		/* An error occured in the disk I/O layer */
+	if (fmt == 3){ 
+		return FR_DISK_ERR;		/* An error occured in the disk I/O layer */
+	}
 	if (fmt) return FR_NO_FILESYSTEM;		/* No FAT volume is found */
 
 	/* An FAT volume is found. Following code initializes the file system object */

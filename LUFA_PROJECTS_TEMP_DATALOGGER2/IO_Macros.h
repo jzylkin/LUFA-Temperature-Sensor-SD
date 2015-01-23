@@ -53,8 +53,6 @@
 
 #define SD_DETECT				PB7
 #define SD_DETECT_PORT			PORTB
-#define SD_DETECT_DDR			DDRB
-#define SD_DETECT_PIN			PINB
 
 #define SENSE_CLK				PB6
 #define SENSE_CLK_PORT			PORTB

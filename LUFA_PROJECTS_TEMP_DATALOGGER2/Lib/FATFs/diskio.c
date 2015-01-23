@@ -36,8 +36,9 @@
 
 #include <avr/io.h>			/* Include device specific declareation file here */
 #include "IO_Macros.h"
+#include "Debug.h"
 
-#define DO_INIT()	configure_as_input(SD_MISO)			/* Initialize port for MMC DO as input */  
+#define DO_INIT()	{configure_as_input(SD_MISO); pullup_on(SD_MISO);}	/* Initialize port for MMC DO as input */  
 #define DO			is_high(SD_MISO)	/* Test for MMC DO ('H':true, 'L':false) */
 
 #define DI_INIT()	configure_as_output(SD_MOSI) 	/* Initialize port for MMC DI as output */ 
@@ -137,21 +138,21 @@ void xmit_mmc (
 
 	do {
 		d = *buff++;	/* Get a byte to be sent */
-		if (d & 0x80) DI_H(); else DI_L();	/* bit7 */
+		if (d & 0x80) {DI_H();} else {DI_L();}	/* bit7 */
 		CK_H(); CK_L();
-		if (d & 0x40) DI_H(); else DI_L();	/* bit6 */
+		if (d & 0x40) {DI_H();} else {DI_L();}	/* bit6 */
 		CK_H(); CK_L();
-		if (d & 0x20) DI_H(); else DI_L();	/* bit5 */
+		if (d & 0x20) {DI_H();} else {DI_L();}	/* bit5 */
 		CK_H(); CK_L();
-		if (d & 0x10) DI_H(); else DI_L();	/* bit4 */
+		if (d & 0x10) {DI_H();} else {DI_L();}	/* bit4 */
 		CK_H(); CK_L();
-		if (d & 0x08) DI_H(); else DI_L();	/* bit3 */
+		if (d & 0x08) {DI_H();} else {DI_L();}	/* bit3 */
 		CK_H(); CK_L();
-		if (d & 0x04) DI_H(); else DI_L();	/* bit2 */
+		if (d & 0x04) {DI_H();} else {DI_L();}	/* bit2 */
 		CK_H(); CK_L();
-		if (d & 0x02) DI_H(); else DI_L();	/* bit1 */
+		if (d & 0x02) {DI_H();} else {DI_L();}	/* bit1 */
 		CK_H(); CK_L();
-		if (d & 0x01) DI_H(); else DI_L();	/* bit0 */
+		if (d & 0x01) {DI_H();} else {DI_L();}	/* bit0 */
 		CK_H(); CK_L();
 	} while (--bc);
 }
@@ -174,21 +175,22 @@ void rcvr_mmc (
 	DI_H();	/* Send 0xFF */
 
 	do {
-		r = 0;	 if (DO) r++;	/* bit7 */
+		r = 0;	 if (DO) {r++;}	/* bit7 */
 		CK_H(); CK_L();
-		r <<= 1; if (DO) r++;	/* bit6 */
+		r <<= 1; if (DO) {r++;}	/* bit6 */
 		CK_H(); CK_L();
-		r <<= 1; if (DO) r++;	/* bit5 */
+		r <<= 1; if (DO) {r++;}	/* bit5 */
 		CK_H(); CK_L();
-		r <<= 1; if (DO) r++;	/* bit4 */
+		r <<= 1; if (DO) {r++;}	/* bit4 */
 		CK_H(); CK_L();
-		r <<= 1; if (DO) r++;	/* bit3 */
+		r <<= 1; if (DO) {r++;}	/* bit3 */
 		CK_H(); CK_L();
-		r <<= 1; if (DO) r++;	/* bit2 */
+		r <<= 1; if (DO) {r++;}	/* bit2 */
 		CK_H(); CK_L();
-		r <<= 1; if (DO) r++;	/* bit1 */
+		r <<= 1; if (DO) {r++;}	/* bit1 */
 		CK_H(); CK_L();
-		r <<= 1; if (DO) r++;	/* bit0 */
+		r <<= 1; if (DO) {r++;}
+				/* bit0 */
 		CK_H(); CK_L();
 		*buff++ = r;			/* Store a received byte */
 	} while (--bc);
@@ -271,7 +273,7 @@ int rcvr_datablock (	/* 1:OK, 0:Failed */
 		if (d[0] != 0xFF) break;
 		dly_us(100);
 	}
-	if (d[0] != 0xFE) return 0;		/* If not valid data token, return with error */
+	if (d[0] != 0xFE){ return 0;}//debug		/* If not valid data token, return with error */
 
 	rcvr_mmc(buff, btr);			/* Receive the data block into buffer */
 	rcvr_mmc(d, 2);					/* Discard CRC */
@@ -405,6 +407,8 @@ DSTATUS disk_initialize (
 
 	for (n = 10; n; n--) rcvr_mmc(buf, 1);	/* Apply 80 dummy clocks and the card gets ready to receive command */
 
+	Hang(4);
+	
 	ty = 0;
 	if (send_cmd(CMD0, 0) == 1) {			/* Enter Idle state */
 		if (send_cmd(CMD8, 0x1AA) == 1) {	/* SDv2? */
@@ -458,7 +462,7 @@ DRESULT disk_read (
 	BYTE cmd;
 
 
-	if (disk_status(drv) & STA_NOINIT) return RES_NOTRDY;
+	if (disk_status(drv) & STA_NOINIT) return RES_NOTRDY;//DEBUG
 	if (!(CardType & CT_BLOCK)) sector *= 512;	/* Convert LBA to byte address if needed */
 
 	cmd = count > 1 ? CMD18 : CMD17;			/*  READ_MULTIPLE_BLOCK : READ_SINGLE_BLOCK */

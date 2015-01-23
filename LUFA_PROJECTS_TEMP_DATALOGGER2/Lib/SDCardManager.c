@@ -47,7 +47,6 @@ static uint8_t Buffer[512];
 void SDCardManager_Init(void)
 {
 	set_low(SD_POWER);
-	Delay_MS(1000);
 //	while(!disk_initialize(0))
 //		printf_P(PSTR("MMC/SD initialization failed\r\n"));
 

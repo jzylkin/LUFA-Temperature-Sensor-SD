@@ -25,17 +25,10 @@ void Config_IO(){
 	configure_as_input(REED_4);
 	pullup_on(REED_4);	
 
-	configure_as_input(SD_MISO);
-	pullup_on(SD_MISO);
-	
-	configure_as_output(SD_MOSI);
-
 	configure_as_output(SENSE_CLK);
 	
 	configure_as_input(SENSE_SER);
 	pullup_on(SENSE_SER);
-	
-	configure_as_output(SD_CLK);
 	
 	configure_as_input(PIO_5);
 	pullup_on(PIO_5);
@@ -58,11 +51,13 @@ void Config_IO(){
 	set_high(SD_CHIP_SELECT);
 	configure_as_output(SD_CHIP_SELECT);
 	
-	set_high(SD_POWER);
+	set_low(SD_POWER);
 	configure_as_output(SD_POWER);
+	set_low(SD_POWER);
 	
 	set_high(SENSE_POWER);
 	configure_as_output(SENSE_POWER);
+	set_high(SENSE_POWER);
 	
 	configure_as_input(S1);
 	pullup_on(S1);

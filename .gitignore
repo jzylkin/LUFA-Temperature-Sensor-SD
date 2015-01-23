@@ -41,3 +41,8 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
+
+#junk that atmel studio and gcc compiler spit out
+.d
+.o
+.atsuo

@@ -128,6 +128,7 @@ ISR(TIMER1_COMPA_vect, ISR_BLOCK)
  */
 int main(void)
 {
+
 	SetupHardware();
 
 	/* Mount and open the log file on the Dataflash FAT partition */
@@ -162,20 +163,13 @@ void OpenLogFile(void)
 
 	
 	diskstatus = f_mount(&DiskFATState,"",1);
-	for(int i=0; i<=diskstatus;i++){
-		set_low(LED1);
-		Delay_MS(500);
-		set_high(LED1);
-		Delay_MS(500);
-	}
-	while(1){;}
-	
+
 		/* Mount the storage device, open the file */
-		if(diskstatus == FR_NO_FILESYSTEM){//if there is no file system,
-			set_low(LED1);
-			diskstatus = f_mkfs("", 0,0); //make a new fat file system in default partition with automatically determined sector size.
-		}
-		set_high(LED1);
+//		if(diskstatus == FR_NO_FILESYSTEM){//if there is no file system,
+//			set_low(LED1);
+//			diskstatus = f_mkfs("", 0,0); //make a new fat file system in default partition with automatically determined sector size.
+//		}
+//		set_high(LED1);
 	if (diskstatus == FR_OK){
 		f_open(&TempLogFile, LogFileName, FA_OPEN_ALWAYS | FA_WRITE);
 		f_lseek(&TempLogFile, TempLogFile.fsize);

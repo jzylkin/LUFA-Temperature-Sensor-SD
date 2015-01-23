@@ -56,7 +56,7 @@
 
 #ifndef __BOARD_H__
 #define __BOARD_H__
-
+	#error "this makes no sense"
 	/* Macros: */
 		#define __INCLUDE_FROM_BOARD_H
 
